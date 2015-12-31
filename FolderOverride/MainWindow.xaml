@@ -1,0 +1,12 @@
+﻿<Window x:Class="FolderOverride.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="{Binding Path=Content.Title, ElementName=_mainFrame}" WindowState="Maximized" Width="940"  Height="740">
+    <DockPanel Width="920" Height="770">
+
+
+
+        <Frame x:Name="_mainFrame" NavigationUIVisibility="Hidden" Width="900" Height="750">
+        </Frame>
+    </DockPanel>
+</Window>
