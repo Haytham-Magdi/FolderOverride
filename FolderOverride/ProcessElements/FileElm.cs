@@ -11,7 +11,7 @@ namespace FolderOverride.ProcessElements
     {
         public FileElm()
         {
-            Should_RemOrg = true;
+            //Should_RemOrg = true;
 
             ////Status = FileStatus.Unknown;
             //Status = FileStatus.Ready;
@@ -284,7 +284,7 @@ namespace FolderOverride.ProcessElements
             }
             catch (Exception exp)
             {
-                this.Status = FileStatus.Failed;
+                //this.Status = FileStatus.Failed;
                 this.StatusMsg = exp.Message;
             }
         }

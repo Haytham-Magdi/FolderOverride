@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using FolderOverride.Util;
 
 namespace FolderOverride.ProcessElements
 {
@@ -20,6 +21,15 @@ namespace FolderOverride.ProcessElements
 
         public void Prepare()
         {
+
+            FolderInfo_List = new List<FolderInfo>(1000);
+            FolderInfo_List.Add(new FolderInfo
+            {
+                DirectoryInfo = _di_main,
+                IncludeSubFolders = true,
+                Path = _di_main.FullName,
+            });
+
             PrepareFileElms();
         }
 
@@ -28,7 +38,8 @@ namespace FolderOverride.ProcessElements
 
 
             List<FolderInfo> foldInf_List = new List<FolderInfo>(
-                m_proc.ConfirmingPaths.FolderInfo_List);
+                //m_proc.ConfirmingPaths.FolderInfo_List);
+                this.FolderInfo_List);
 
             FileElm_List = new List<FileElm>(100000);
 
@@ -44,8 +55,8 @@ namespace FolderOverride.ProcessElements
             {
                 FolderInfo foldInf = foldInf_List[i];
 
-                if (foldInf.Status != FolderStatus.Ready)
-                    continue;
+                //if (foldInf.Status != FolderStatus.Ready)
+                //    continue;
 
                 fe_Parent_List.Add(new FileElm_Parent
                 {
@@ -79,7 +90,7 @@ namespace FolderOverride.ProcessElements
                             DirectoryInfo = di,
                             Path = di.FullName,
                             IncludeSubFolders = true,
-                            Status = FolderStatus.Ready
+                            //Status = FolderStatus.Ready
                         });
                     }
 
@@ -106,7 +117,7 @@ namespace FolderOverride.ProcessElements
 
                 foreach (FileInfo fi in fiColl)
                 {
-                    string sLast_4 = Util.Get_FileExtension(fi.Name);
+                    string sLast_4 = CommonUtil.Get_FileExtension(fi.Name);
 
                     if (sLast_4.ToLower() != ".pdf")
                         continue;
@@ -135,6 +146,12 @@ namespace FolderOverride.ProcessElements
         }
 
         public List<FileElm_Parent> FileParent_List
+        {
+            get;
+            set;
+        }
+
+        public List<FolderInfo> FolderInfo_List
         {
             get;
             set;
