@@ -8,13 +8,13 @@
        Width="900" Height="750"
 	Title="Folder Override - Mail">
 
-    <Grid>
+    <Grid Loaded="Grid_Loaded">
 
         <TextBlock Height="32" HorizontalAlignment="Left" Margin="12,56,0,0" Name="lblSrcFolder" Text="Source Folder" VerticalAlignment="Top" Width="141" FontSize="14" />
-        <TextBox Height="32" HorizontalAlignment="Right" Margin="0,55,24,0" Name="txtSrcFolder" Text="E:\HthmWork\Home-Projects\FolderOverride-Stuff\TestSrc_IbsHaythamMagdiTask" VerticalAlignment="Top" Width="704" />
+        <TextBox Height="32" HorizontalAlignment="Right" Margin="0,55,24,0" Name="txtSrcFolder" Text="E:\HthmWork\Home-Projects\FolderOverride-Stuff\TestFolders\TestSrc_IbsHaythamMagdiTask" VerticalAlignment="Top" Width="704" />
 
         <TextBlock FontSize="14" Height="32" HorizontalAlignment="Left" Margin="12,94,0,0" Name="lblDestFolder" Text="Destenation Folder" VerticalAlignment="Top" Width="141" />
-        <TextBox Height="32" HorizontalAlignment="Right" Margin="0,93,24,0" Name="txtDestFolder" Text="E:\HthmWork\Home-Projects\FolderOverride-Stuff\TestDest_IbsHaythamMagdiTask" VerticalAlignment="Top" Width="704" />
+        <TextBox Height="32" HorizontalAlignment="Right" Margin="0,93,24,0" Name="txtDestFolder" Text="E:\HthmWork\Home-Projects\FolderOverride-Stuff\TestFolders\TestDest_IbsHaythamMagdiTask_12" VerticalAlignment="Top" Width="704" />
 
         <Button Content="Proceed" Height="51" HorizontalAlignment="Left" Margin="12,179,0,0" Name="btnProceed" VerticalAlignment="Top" Width="167" SnapsToDevicePixels="False" Click="btnProceed_Click" />
 

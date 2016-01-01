@@ -18,11 +18,27 @@ namespace FolderOverride.ProcessElements
         MainFolderMgr _srcMain;
         MainFolderMgr _destMain;
 
+
         public void Proceed()
         {
+            Prepare();
+
+
+        }
+
+        public void Prepare()
+        {
+            if (_isPrepared)
+                return;
+
             _srcMain.Prepare();
             _destMain.Prepare();
+
+            _isPrepared = true;
         }
+        bool _isPrepared = false;
+
+
 
     }
 }

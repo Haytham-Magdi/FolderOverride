@@ -55,6 +55,13 @@ namespace FolderOverride.Pages
 
         }
 
+        private void Grid_Loaded(object sender, RoutedEventArgs e)
+        {
+            var fom = new FolderOverrideMgr(txtSrcFolder.Text, txtDestFolder.Text);
+            fom.Proceed();
+
+        }
+
     
     
     
