@@ -63,6 +63,7 @@
     </Compile>
     <Compile Include="ProcessElements\FileElm.cs" />
     <Compile Include="ProcessElements\FileElm_Parent.cs" />
+    <Compile Include="ProcessElements\FolderInfo.cs" />
     <Compile Include="ProcessElements\MainFolderMgr.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
