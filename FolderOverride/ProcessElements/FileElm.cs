@@ -93,25 +93,25 @@ namespace FolderOverride.ProcessElements
             set;
         }
 
-        public ulong UniqueNum_1
+        private ulong UniqueNum_1
         {
             get;
             set;
         }
 
-        public ulong UniqueNum_2
+        private ulong UniqueNum_2
         {
             get;
             set;
         }
 
-        public ulong UniqueNum_3
+        private ulong UniqueNum_3
         {
             get;
             set;
         }
 
-        public ulong UniqueNum_4
+        private ulong UniqueNum_4
         {
             get;
             set;
@@ -187,9 +187,33 @@ namespace FolderOverride.ProcessElements
         }
         bool _WriteMarkFile_To_SourceFolder = true;
 
-
-        public void PrepareUniqueNums()
+        public bool CompareUniqueNums(FileElm fileElm)
         {
+            this.PrepareUniqueNumsOnce();
+            fileElm.PrepareUniqueNumsOnce();
+
+            if (this.UniqueNum_1 != fileElm.UniqueNum_1)
+                return false;
+
+            if (this.UniqueNum_2 != fileElm.UniqueNum_2)
+                return false;
+
+            if (this.UniqueNum_3 != fileElm.UniqueNum_3)
+                return false;
+
+            if (this.UniqueNum_4 != fileElm.UniqueNum_4)
+                return false;
+
+            return true;
+        }
+
+        bool _UniqueNumsReady = false;
+
+        public void PrepareUniqueNumsOnce()
+        {
+            if (_UniqueNumsReady)
+                return;
+
             try
             {
                 //const int nBufSiz_0 = 1000000;
@@ -277,12 +301,7 @@ namespace FolderOverride.ProcessElements
                     this.UniqueNum_4 = nUnq_4;
                 }
 
-
-                //  Hthm Temp
-                //this.UniqueNum_1 ^= this.UniqueNum_3;
-                //this.UniqueNum_2 ^= this.UniqueNum_4;
-
-
+                _UniqueNumsReady = true;
             }
             catch (Exception exp)
             {
