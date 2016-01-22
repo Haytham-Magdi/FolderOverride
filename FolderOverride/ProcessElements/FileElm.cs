@@ -192,7 +192,9 @@ namespace FolderOverride.ProcessElements
         {
             try
             {
-                const int nBufSiz_0 = 1000000;
+                //const int nBufSiz_0 = 1000000;
+                const int nBufSiz_0 = 10000;
+                //const int nBufSiz_0 = 100;
 
                 const int nBufSiz = nBufSiz_0 - (nBufSiz_0 % 32);
 

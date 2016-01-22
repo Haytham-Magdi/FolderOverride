@@ -35,7 +35,7 @@ namespace FolderOverride.ProcessElements
 
         public void PrepareFileElms()
         {
-
+            var t1 = DateTime.Now;
 
             List<FolderInfo> foldInf_List = new List<FolderInfo>(
                 //m_proc.ConfirmingPaths.FolderInfo_List);
@@ -108,7 +108,8 @@ namespace FolderOverride.ProcessElements
                 try
                 {
                     fiColl = fe_Parent.DirectoryInfo.GetFiles(
-                        "*.pdf", SearchOption.TopDirectoryOnly);
+                        //"*.pdf", SearchOption.TopDirectoryOnly);
+                        "*.*", SearchOption.TopDirectoryOnly);
                 }
                 catch
                 {
@@ -117,10 +118,10 @@ namespace FolderOverride.ProcessElements
 
                 foreach (FileInfo fi in fiColl)
                 {
-                    string sLast_4 = CommonUtil.Get_FileExtension(fi.Name);
+                    //string sLast_4 = CommonUtil.Get_FileExtension(fi.Name);
 
-                    if (sLast_4.ToLower() != ".pdf")
-                        continue;
+                    //if (sLast_4.ToLower() != ".pdf")
+                    //    continue;
 
                     FileElm fiElm = new FileElm
                     {
@@ -130,13 +131,23 @@ namespace FolderOverride.ProcessElements
 
                     FileElm_List.Add(fiElm);
 
-                    fiElm.PrepareUniqueNums();
+                    //fiElm.PrepareUniqueNums();
                 }
 
-                if (fiColl.Length > 0)
-                    FileParent_List.Add(fe_Parent);
+                //if (fiColl.Length > 0)
+                //    FileParent_List.Add(fe_Parent);
             }
 
+            var t2 = DateTime.Now;
+
+            var ts = t2.Subtract(t1);
+
+            //var l1 = FileElm_List.Select(x => x.FileInfo.Length).ToList();
+
+            //FileElm_List.OrderBy(x => x.FileInfo.Length)
+            //l1.Sort();
+                
+                //Sort(x => x.FileInfo.Length);
         }
 
         public List<FileElm> FileElm_List

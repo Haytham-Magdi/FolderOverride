@@ -15,7 +15,6 @@ namespace FolderOverride.ProcessElements
             //Status = FolderStatus.Unknown;
         }
 
-
         public string Path
         {
             get;
