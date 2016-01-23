@@ -33,12 +33,7 @@ namespace FolderOverride.ProcessElements
         }
         bool _IsWriteAccessible = false;
 
-        public bool WriteCheckDone
-        {
-            get { return _WriteCheckDone; }
-        }
         bool _WriteCheckDone = false;
-
         public void TestWriteAccessOnce()
         {
             if (_WriteCheckDone)

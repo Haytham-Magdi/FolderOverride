@@ -115,11 +115,6 @@ namespace FolderOverride.ProcessElements
 
                 foreach (FileInfo fi in fiColl)
                 {
-                    //string sLast_4 = CommonUtil.Get_FileExtension(fi.Name);
-
-                    //if (sLast_4.ToLower() != ".pdf")
-                    //    continue;
-
                     FileElm fiElm = new FileElm
                     {
                         FileInfo = fi,
@@ -127,8 +122,6 @@ namespace FolderOverride.ProcessElements
                     };
 
                     FileElm_List.Add(fiElm);
-
-                    //fiElm.PrepareUniqueNumsOnce();
                 }
 
                 //if (fiColl.Length > 0)
