@@ -151,10 +151,10 @@ namespace FolderOverride.ProcessElements
             }
             set
             {
-                if (this.CanWrite_To_ParentFolder == false)
-                    _DeleteSourceFile_AfterCapture = false;
-                else
-                    _DeleteSourceFile_AfterCapture = value;
+                if (value && !this.CanWrite_To_ParentFolder)
+                    throw new InvalidOperationException();
+
+                _DeleteSourceFile_AfterCapture = value;
             }
         }
         bool _DeleteSourceFile_AfterCapture = false;
