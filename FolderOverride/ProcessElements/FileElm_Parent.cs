@@ -26,8 +26,7 @@ namespace FolderOverride.ProcessElements
         {
             get
             {
-                if (this.WriteCheckDone == false)
-                    throw new Exception();
+                this.TestWriteAccessOnce();
 
                 return _IsWriteAccessible;
             }
@@ -40,8 +39,11 @@ namespace FolderOverride.ProcessElements
         }
         bool _WriteCheckDone = false;
 
-        public void TestWriteAccess()
+        public void TestWriteAccessOnce()
         {
+            if (_WriteCheckDone)
+                return;
+
             try
             {
                 string sDestFullName = this.DirectoryInfo.FullName +

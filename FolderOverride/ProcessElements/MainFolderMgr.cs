@@ -99,9 +99,6 @@ namespace FolderOverride.ProcessElements
             }
 
             foreach (FileElm_Parent fe_Parent in fe_Parent_List)
-                fe_Parent.TestWriteAccess();
-
-            foreach (FileElm_Parent fe_Parent in fe_Parent_List)
             {
                 FileInfo[] fiColl = null;
 
