@@ -136,9 +136,53 @@ namespace FolderOverride.ProcessElements
 
             //FileElm_List.OrderBy(x => x.FileInfo.Length)
             //l1.Sort();
-                
-                //Sort(x => x.FileInfo.Length);
+
+            //Sort(x => x.FileInfo.Length);
+
+            //this.FileElm_List.Sort((x, y) => x.DateModified < y.DateModified);
+
+            this.FileElm_List.Sort(FileElm.Comparison);
+            //this.FileElm_List.Sort((x, y) =>
+            //{
+            //    long longVal1;
+
+            //    longVal1 = x.Size - y.Size;
+            //    if (longVal1 > 0)
+            //        return (int)1;
+            //    else if (longVal1 < 0)
+            //        return (int)-1;
+
+            //    int intVal1 = x.DateModified.CompareTo(y.DateModified);
+
+            //    return intVal1;
+            //});
+
+            var list11 = this.FileElm_List.Select(x => new 
+            { 
+                x.Size, 
+                x.DateModified ,
+                x.Name,
+            }).ToList();
+
+
+            int a;
+            for(int i=1; i < this.FileElm_List.Count; i++)
+            {
+                var e1 = this.FileElm_List[i];
+                var e2 = this.FileElm_List[i-1];
+
+                //var c1 = FileElm.Comparison(e1, e2);
+
+                //if (c1 == 0)
+                //{
+                //    a = 0;
+
+                //}
+            
+            }
+
         }
+
 
         public List<FileElm> FileElm_List
         {

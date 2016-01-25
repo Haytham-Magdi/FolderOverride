@@ -23,6 +23,34 @@ namespace FolderOverride.ProcessElements
             //StatusMsg = "";
         }
 
+        public static Comparison<FileElm> Comparison
+        {
+            get
+            {
+                return (x, y) =>
+                {
+                    long longVal1;
+
+                    longVal1 = x.Size - y.Size;
+                    if (longVal1 > 0)
+                        return (int)1;
+                    else if (longVal1 < 0)
+                        return (int)-1;
+
+                    int intVal1 = x.DateModified.CompareTo(y.DateModified);
+
+                    if(intVal1 != 0)
+                        return intVal1;
+
+                    var boolVal1 = x.CompareUniqueNums(y);
+                    if (!boolVal1)
+                        //boolVal1 = boolVal1;
+                        return 1;
+                    
+                    return 0;
+                };
+            }
+        }
 
         public FileElm Repeated_FileElm
         {
