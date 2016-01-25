@@ -23,7 +23,7 @@ namespace FolderOverride.ProcessElements
             //StatusMsg = "";
         }
 
-        public static Comparison<FileElm> Comparison
+        public static Comparison<FileElm> SortComparison
         {
             get
             {
@@ -46,6 +46,28 @@ namespace FolderOverride.ProcessElements
                     if (!boolVal1)
                         //boolVal1 = boolVal1;
                         return 1;
+
+                    return 0;
+                };
+            }
+        }
+
+        public static Comparison<FileElm> OverrideComparison
+        {
+            get
+            {
+                return (x, y) =>
+                {
+                    //long longVal1;
+
+                    int intVal1;
+
+                    intVal1 = FileElm.SortComparison(x, y);
+
+                    if (intVal1 != 0)
+                        return intVal1;
+
+                    //bool boolVal1;
 
                     return 0;
                 };
@@ -208,6 +230,7 @@ namespace FolderOverride.ProcessElements
         bool _UniqueNumsReady = false;
 
         byte[] _UniqueArr;
+        //int _UniqueDataLen = 0;
 
         public void PrepareUniqueNumsOnce()
         {
@@ -216,22 +239,26 @@ namespace FolderOverride.ProcessElements
 
             try
             {
-                //const int nBufSiz_0 = 1000000;
-                const int nBufSiz_0 = 10000;
-                //const int nBufSiz_0 = 100;
+                byte[] readBuf;
+                {
+                    //const int nBufSiz_0 = 1000000;
+                    const int nBufSiz_0 = 10000;
+                    //const int nBufSiz_0 = 100;
 
-                const int nBufSiz = nBufSiz_0 - (nBufSiz_0 % 32);
+                    const int nBufSiz = nBufSiz_0 - (nBufSiz_0 % 32);
 
-                //byte[] uniqueArr = new byte[32];
-                _UniqueArr = new byte[32];
+                    //byte[] uniqueArr = new byte[32];
+                    _UniqueArr = new byte[32];
 
 
-                for (int i = 0; i < _UniqueArr.Length; i++)
-                    _UniqueArr[i] = 0;
+                    for (int i = 0; i < _UniqueArr.Length; i++)
+                        _UniqueArr[i] = 0;
+
+                    readBuf = new byte[nBufSiz];
+                }
 
                 FileStream fs = this.FileInfo.OpenRead();
 
-                byte[] readBuf = new byte[nBufSiz];
 
                 int nReadCnt = fs.Read(readBuf, 0, readBuf.Length);
 

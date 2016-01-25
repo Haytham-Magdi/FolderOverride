@@ -141,7 +141,7 @@ namespace FolderOverride.ProcessElements
 
             //this.FileElm_List.Sort((x, y) => x.DateModified < y.DateModified);
 
-            this.FileElm_List.Sort(FileElm.Comparison);
+            this.FileElm_List.Sort(FileElm.SortComparison);
             //this.FileElm_List.Sort((x, y) =>
             //{
             //    long longVal1;
@@ -171,7 +171,7 @@ namespace FolderOverride.ProcessElements
                 var e1 = this.FileElm_List[i];
                 var e2 = this.FileElm_List[i-1];
 
-                //var c1 = FileElm.Comparison(e1, e2);
+                //var c1 = FileElm.SortComparison(e1, e2);
 
                 //if (c1 == 0)
                 //{
