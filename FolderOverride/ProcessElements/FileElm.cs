@@ -39,14 +39,14 @@ namespace FolderOverride.ProcessElements
 
                     int intVal1 = x.DateModified.CompareTo(y.DateModified);
 
-                    if(intVal1 != 0)
+                    if (intVal1 != 0)
                         return intVal1;
 
                     var boolVal1 = x.CompareUniqueNums(y);
                     if (!boolVal1)
                         //boolVal1 = boolVal1;
                         return 1;
-                    
+
                     return 0;
                 };
             }
@@ -116,30 +116,6 @@ namespace FolderOverride.ProcessElements
         //}
 
         public string StatusMsg
-        {
-            get;
-            set;
-        }
-
-        private ulong UniqueNum_1
-        {
-            get;
-            set;
-        }
-
-        private ulong UniqueNum_2
-        {
-            get;
-            set;
-        }
-
-        private ulong UniqueNum_3
-        {
-            get;
-            set;
-        }
-
-        private ulong UniqueNum_4
         {
             get;
             set;
@@ -220,22 +196,18 @@ namespace FolderOverride.ProcessElements
             this.PrepareUniqueNumsOnce();
             fileElm.PrepareUniqueNumsOnce();
 
-            if (this.UniqueNum_1 != fileElm.UniqueNum_1)
-                return false;
-
-            if (this.UniqueNum_2 != fileElm.UniqueNum_2)
-                return false;
-
-            if (this.UniqueNum_3 != fileElm.UniqueNum_3)
-                return false;
-
-            if (this.UniqueNum_4 != fileElm.UniqueNum_4)
-                return false;
+            for (int i = 0; i < this._UniqueArr.Length; i++)
+            {
+                if (this._UniqueArr[i] != fileElm._UniqueArr[i])
+                    return false;
+            }
 
             return true;
         }
 
         bool _UniqueNumsReady = false;
+
+        byte[] _UniqueArr;
 
         public void PrepareUniqueNumsOnce()
         {
@@ -250,10 +222,12 @@ namespace FolderOverride.ProcessElements
 
                 const int nBufSiz = nBufSiz_0 - (nBufSiz_0 % 32);
 
-                byte[] uniqueArr = new byte[32];
+                //byte[] uniqueArr = new byte[32];
+                _UniqueArr = new byte[32];
 
-                for (int i = 0; i < uniqueArr.Length; i++)
-                    uniqueArr[i] = 0;
+
+                for (int i = 0; i < _UniqueArr.Length; i++)
+                    _UniqueArr[i] = 0;
 
                 FileStream fs = this.FileInfo.OpenRead();
 
@@ -278,56 +252,12 @@ namespace FolderOverride.ProcessElements
 
                         for (int j = 0; j < 32; j++)
                         {
-                            uniqueArr[j] ^= readBuf[nBgn + j];
+                            _UniqueArr[j] ^= readBuf[nBgn + j];
                         }
                     }
 
                     nReadCnt = fs.Read(readBuf, 0, readBuf.Length);
                 }   //  while
-
-                {
-                    ulong nUnq_1 = 0;
-
-                    for (int i = 0; i < 8; i++)
-                    {
-                        nUnq_1 = nUnq_1 | ((ulong)(uniqueArr[i]) << (i * 8));
-                    }
-
-                    this.UniqueNum_1 = nUnq_1;
-                }
-
-                {
-                    ulong nUnq_2 = 0;
-
-                    for (int i = 0; i < 8; i++)
-                    {
-                        nUnq_2 = nUnq_2 | ((ulong)(uniqueArr[i + 8]) << (i * 8));
-                    }
-
-                    this.UniqueNum_2 = nUnq_2;
-                }
-
-                {
-                    ulong nUnq_3 = 0;
-
-                    for (int i = 0; i < 8; i++)
-                    {
-                        nUnq_3 = nUnq_3 | ((ulong)(uniqueArr[i + 16]) << (i * 8));
-                    }
-
-                    this.UniqueNum_3 = nUnq_3;
-                }
-
-                {
-                    ulong nUnq_4 = 0;
-
-                    for (int i = 0; i < 8; i++)
-                    {
-                        nUnq_4 = nUnq_4 | ((ulong)(uniqueArr[i + 24]) << (i * 8));
-                    }
-
-                    this.UniqueNum_4 = nUnq_4;
-                }
 
                 _UniqueNumsReady = true;
             }
