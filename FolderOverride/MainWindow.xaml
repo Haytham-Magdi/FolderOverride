@@ -4,8 +4,6 @@
         Title="{Binding Path=Content.Title, ElementName=_mainFrame}" WindowState="Maximized" Width="940"  Height="740">
     <DockPanel Width="920" Height="770">
 
-
-
         <Frame x:Name="_mainFrame" NavigationUIVisibility="Hidden" Width="900" Height="750">
         </Frame>
     </DockPanel>

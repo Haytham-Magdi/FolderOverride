@@ -17,8 +17,7 @@ namespace FolderOverride.ProcessElements
 
         public string Path
         {
-            get;
-            set;
+            get { return this.DirectoryInfo.FullName; }
         }
 
         public bool IncludeSubFolders
