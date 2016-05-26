@@ -143,7 +143,7 @@ namespace FolderOverride.ProcessElements
             set;
         }
 
-        public FileElm_Parent ParentFolder
+        public FolderElm ParentFolder
         {
             get;
             set;

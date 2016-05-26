@@ -22,55 +22,42 @@ namespace FolderOverride.ProcessElements
         public void Prepare()
         {
 
-            FolderInfo_List = new List<FolderInfo>(1000);
-            FolderInfo_List.Add(new FolderInfo
+            FolderElm_List = new List<FolderElm>(1000);
+            FolderElm_List.Add(new FolderElm
             {
                 DirectoryInfo = _di_main,
                 IncludeSubFolders = true,
                 Parent = null,
             });
 
-            PrepareFileElms();
+            PrepareElements();
         }
 
-        public void PrepareFileElms()
+        public void PrepareElements()
         {
             var t1 = DateTime.Now;
 
-            List<FolderInfo> foldInf_List = new List<FolderInfo>(
-                //m_proc.ConfirmingPaths.FolderInfo_List);
-                this.FolderInfo_List);
+            //List<FolderElm> FolderInfo_List = new List<FolderElm>(
+            //    //m_proc.ConfirmingPaths.FolderInfo_List);
+            //    this.FolderInfo_List);
 
             FileElm_List = new List<FileElm>(100000);
 
-            FileParent_List = new List<FileElm_Parent>(100000);
-
-
-            List<FileElm_Parent> fe_Parent_List =
-                new List<FileElm_Parent>(10000);
-
-
-            //foreach (FolderInfo foldInf in foldInf_List)
-            for (int i = 0; i < foldInf_List.Count; i++)
+            //foreach (FolderInfo foldInf in FolderInfo_List)
+            for (int i = 0; i < FolderElm_List.Count; i++)
             {
-                FolderInfo foldInf = foldInf_List[i];
+                FolderElm folderElm = FolderElm_List[i];
 
                 //if (foldInf.Status != FolderStatus.Ready)
                 //    continue;
 
-                fe_Parent_List.Add(new FileElm_Parent
-                {
-                    DirectoryInfo = foldInf.DirectoryInfo,
-                    Parent = foldInf.Parent,
-                });
-
-                if (foldInf.IncludeSubFolders)
+                if (folderElm.IncludeSubFolders)
                 {
                     DirectoryInfo[] di_List = null;
 
                     try
                     {
-                        di_List = foldInf.DirectoryInfo.GetDirectories(
+                        di_List = folderElm.DirectoryInfo.GetDirectories(
                             //"*.*", SearchOption.AllDirectories);
                             "*.*", SearchOption.TopDirectoryOnly);
                     }
@@ -81,17 +68,12 @@ namespace FolderOverride.ProcessElements
 
                     foreach (DirectoryInfo di in di_List)
                     {
-                        //fe_Parent_List.Add(new FileElm_Parent
-                        //{
-                        //    DirectoryInfo = di
-                        //});
-
-                        foldInf_List.Add(new FolderInfo
+                        FolderElm_List.Add(new FolderElm
                         {
                             DirectoryInfo = di,
                             IncludeSubFolders = true,
                             //Status = FolderStatus.Ready
-                            Parent = foldInf,
+                            Parent = folderElm,
                         });
                     }
 
@@ -99,13 +81,13 @@ namespace FolderOverride.ProcessElements
 
             }
 
-            foreach (FileElm_Parent fe_Parent in fe_Parent_List)
+            foreach (FolderElm folderElm in FolderElm_List)
             {
                 FileInfo[] fiColl = null;
 
                 try
                 {
-                    fiColl = fe_Parent.DirectoryInfo.GetFiles(
+                    fiColl = folderElm.DirectoryInfo.GetFiles(
                         //"*.pdf", SearchOption.TopDirectoryOnly);
                         "*.*", SearchOption.TopDirectoryOnly);
                 }
@@ -119,7 +101,7 @@ namespace FolderOverride.ProcessElements
                     FileElm fiElm = new FileElm
                     {
                         FileInfo = fi,
-                        ParentFolder = fe_Parent
+                        ParentFolder = folderElm,
                     };
 
                     FileElm_List.Add(fiElm);
@@ -191,13 +173,7 @@ namespace FolderOverride.ProcessElements
             set;
         }
 
-        public List<FileElm_Parent> FileParent_List
-        {
-            get;
-            set;
-        }
-
-        public List<FolderInfo> FolderInfo_List
+        public List<FolderElm> FolderElm_List
         {
             get;
             set;

@@ -7,8 +7,30 @@ using System.Threading.Tasks;
 
 namespace FolderOverride.ProcessElements
 {
-    public class FileElm_Parent
+    public class FolderElm
     {
+        public FolderElm()
+        {
+            IncludeSubFolders = true;
+            //Status = FolderStatus.Unknown;
+        }
+
+        public string Path
+        {
+            get { return this.DirectoryInfo.FullName; }
+        }
+
+        public bool IncludeSubFolders
+        {
+            get;
+            set;
+        }
+
+        //public FolderStatus Status
+        //{
+        //    get;
+        //    set;
+        //}
 
         public DirectoryInfo DirectoryInfo
         {
@@ -16,11 +38,7 @@ namespace FolderOverride.ProcessElements
             set;
         }
 
-        //public int ID
-        //{
-        //    get;
-        //    set;
-        //}
+        public FolderElm Parent { get; set; }
 
         public bool IsWriteAccessible
         {
@@ -59,8 +77,5 @@ namespace FolderOverride.ProcessElements
             }
 
         }
-
-        public FileElm_Parent Parent { get; set; }
-
     }
 }
