@@ -16,11 +16,11 @@ namespace FolderOverride.ProcessElements
             set;
         }
 
-        public int ID
-        {
-            get;
-            set;
-        }
+        //public int ID
+        //{
+        //    get;
+        //    set;
+        //}
 
         public bool IsWriteAccessible
         {
@@ -59,6 +59,8 @@ namespace FolderOverride.ProcessElements
             }
 
         }
+
+        public FileElm_Parent Parent { get; set; }
 
     }
 }

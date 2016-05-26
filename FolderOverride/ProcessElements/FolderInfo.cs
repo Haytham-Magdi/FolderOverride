@@ -38,5 +38,7 @@ namespace FolderOverride.ProcessElements
             get;
             set;
         }
+
+        public FolderInfo Parent { get; set; }
     }
 }

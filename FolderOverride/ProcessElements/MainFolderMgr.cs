@@ -28,6 +28,7 @@ namespace FolderOverride.ProcessElements
                 DirectoryInfo = _di_main,
                 IncludeSubFolders = true,
                 Path = _di_main.FullName,
+                Parent = null,
             });
 
             PrepareFileElms();
@@ -61,6 +62,7 @@ namespace FolderOverride.ProcessElements
                 fe_Parent_List.Add(new FileElm_Parent
                 {
                     DirectoryInfo = foldInf.DirectoryInfo
+                    //Parent = foldInf.Parent,
                 });
 
                 if (foldInf.IncludeSubFolders)
@@ -91,6 +93,7 @@ namespace FolderOverride.ProcessElements
                             Path = di.FullName,
                             IncludeSubFolders = true,
                             //Status = FolderStatus.Ready
+                            Parent = foldInf,
                         });
                     }
 
