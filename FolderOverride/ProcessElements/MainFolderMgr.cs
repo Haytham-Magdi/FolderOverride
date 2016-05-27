@@ -31,6 +31,36 @@ namespace FolderOverride.ProcessElements
             });
 
             PrepareElements();
+
+            int a;
+            {
+                var di1 = new DirectoryInfo(
+                    @"E:\HthmWork\Home-Projects\FolderOverride-Stuff\TestFolders\NewDestParent\NewDest");
+
+                var ex1 = di1.Exists;
+
+                if(!di1.Exists) {
+                    di1.Create();
+                }
+
+                //var stack_NotExists = new Stack<DirectoryInfo>();
+
+                //var di2 = di1;
+                //while (!di2.Exists)
+                //{
+                //    stack_NotExists.Push(di2);
+                //}
+
+                //while (stack_NotExists.Count() > 0)
+                //{
+                //    di2 = stack_NotExists.Pop();
+
+                //    di2.Create();
+                //}
+
+
+                a = 0;
+            }
         }
 
         public void PrepareElements()

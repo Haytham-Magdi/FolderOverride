@@ -77,5 +77,7 @@ namespace FolderOverride.ProcessElements
             }
 
         }
+
+        public bool IsOrigin { get { return this.Parent == null; } }
     }
 }
