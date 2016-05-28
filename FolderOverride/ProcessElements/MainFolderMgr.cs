@@ -142,7 +142,6 @@ namespace FolderOverride.ProcessElements
             }
 
             var t2 = DateTime.Now;
-
             var ts = t2.Subtract(t1);
 
             //var l1 = FileElm_List.Select(x => x.FileInfo.Length).ToList();

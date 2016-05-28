@@ -79,5 +79,28 @@ namespace FolderOverride.ProcessElements
         }
 
         public bool IsOrigin { get { return this.Parent == null; } }
+
+        public string Name { get { return this.DirectoryInfo.Name; } }
+
+        string _RelativePath = null;
+        public string RelativePath
+        {
+            get
+            {
+                if (_RelativePath == null)
+                {
+                    if (this.IsOrigin)
+                    {
+                        _RelativePath = "\\";
+                    }
+                    else
+                    {
+                        _RelativePath = this.Parent.RelativePath + this.Name + "\\";
+                    }
+                }
+                return _RelativePath;
+            }
+        }
+
     }
 }

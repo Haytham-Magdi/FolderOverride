@@ -74,28 +74,27 @@ namespace FolderOverride.ProcessElements
             }
         }
 
-        public FileElm Repeated_FileElm
-        {
-            get;
-            set;
-        }
+        //public FileElm Repeated_FileElm
+        //{
+        //    get;
+        //    set;
+        //}
 
-        public int ID
-        {
-            get;
-            set;
-        }
-
-
+        //public int ID
+        //{
+        //    get;
+        //    set;
+        //}
+        
         public string Name
         {
             get { return this.FileInfo.Name; }
         }
 
-        public string FolderPath
-        {
-            get { return this.FileInfo.DirectoryName; }
-        }
+        //public string FolderPath
+        //{
+        //    get { return this.FileInfo.DirectoryName; }
+        //}
 
         public long Size
         {
@@ -165,7 +164,6 @@ namespace FolderOverride.ProcessElements
             }
         }
 
-
         public bool DeleteSourceFile_AfterCapture
         {
             get
@@ -186,13 +184,11 @@ namespace FolderOverride.ProcessElements
         bool _DeleteSourceFile_AfterCapture = false;
         //bool _DeleteSourceFile_AfterCapture = true;
 
-
         public bool WasCoreMissing
         {
             get;
             set;
         }
-
 
         public bool WriteMarkFile_To_SourceFolder
         {
@@ -292,6 +288,14 @@ namespace FolderOverride.ProcessElements
             {
                 //this.Status = FileStatus.Failed;
                 this.StatusMsg = exp.Message;
+            }
+        }
+
+        public string RelativeFullName
+        {
+            get
+            {
+                return this.ParentFolder.RelativePath + this.Name;
             }
         }
 
