@@ -53,7 +53,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="ProcessElements\DestActionMgr.cs" />
+    <Compile Include="ProcessElements\DestApplier.cs" />
+    <Compile Include="ProcessElements\DestPlan.cs" />
     <Compile Include="ProcessElements\FileDestAction.cs" />
     <Compile Include="ProcessElements\FolderDestAction.cs" />
     <Compile Include="Util\CommonUtil.cs" />

@@ -22,20 +22,6 @@ namespace FolderOverride.ProcessElements
 
         public void Execute()
         {
-            switch (this.Type)
-            {
-                case ActionType.Copy:
-                    ExecuteCopy();
-                    break;
-                case ActionType.Move:
-                    ExecuteMove();
-                    break;
-                case ActionType.Delete:
-                    ExecuteDelet();
-                    break;
-                default:
-                    throw new InvalidOperationException();
-            }
         }
 
         void ExecuteCopy()

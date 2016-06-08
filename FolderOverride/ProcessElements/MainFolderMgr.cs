@@ -12,12 +12,12 @@ namespace FolderOverride.ProcessElements
     {
         public MainFolderMgr(string path)
         {
-            _di_main = new DirectoryInfo(path);
-            if (!_di_main.Exists)
+            DI_main = new DirectoryInfo(path);
+            if (!DI_main.Exists)
                 throw new InvalidDataException();
         }
 
-        DirectoryInfo _di_main;
+        public DirectoryInfo DI_main;
 
         public void Prepare()
         {
@@ -25,42 +25,12 @@ namespace FolderOverride.ProcessElements
             FolderElm_List = new List<FolderElm>(1000);
             FolderElm_List.Add(new FolderElm
             {
-                DirectoryInfo = _di_main,
+                DirectoryInfo = DI_main,
                 IncludeSubFolders = true,
                 Parent = null,
             });
 
             PrepareElements();
-
-            int a;
-            {
-                var di1 = new DirectoryInfo(
-                    @"E:\HthmWork\Home-Projects\FolderOverride-Stuff\TestFolders\NewDestParent\NewDest");
-
-                var ex1 = di1.Exists;
-
-                if(!di1.Exists) {
-                    di1.Create();
-                }
-
-                //var stack_NotExists = new Stack<DirectoryInfo>();
-
-                //var di2 = di1;
-                //while (!di2.Exists)
-                //{
-                //    stack_NotExists.Push(di2);
-                //}
-
-                //while (stack_NotExists.Count() > 0)
-                //{
-                //    di2 = stack_NotExists.Pop();
-
-                //    di2.Create();
-                //}
-
-
-                a = 0;
-            }
         }
 
         public void PrepareElements()
@@ -172,7 +142,7 @@ namespace FolderOverride.ProcessElements
             var list11 = this.FileElm_List.Select(x => new 
             { 
                 x.Size, 
-                x.DateModified ,
+                x.DateModified,
                 x.Name,
             }).ToList();
 

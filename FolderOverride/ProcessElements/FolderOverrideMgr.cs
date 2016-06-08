@@ -23,6 +23,61 @@ namespace FolderOverride.ProcessElements
         {
             Prepare();
 
+            {
+                List<FolderDestAction> list_FolderDestActions = new List<FolderDestAction>();
+                foreach (FolderElm folderElm in this._srcMain.FolderElm_List)
+                {
+                    if (folderElm.RelativePath == "\\")
+                        continue;
+
+                    var folderAction = new FolderDestAction
+                    {
+                        DestFullName = this._destMain.DI_main.FullName + folderElm.RelativePath,
+                        Type = FolderDestAction.ActionType.Create,
+                    };
+                    list_FolderDestActions.Add(folderAction);
+                }
+
+                List<FileDestAction> list_FileDestActions = new List<FileDestAction>();
+
+                var destPlan = new DestPlan
+                {
+                    FolderDestActions = list_FolderDestActions,
+                    FileDestActions = list_FileDestActions,
+                };
+
+                DestApplier.Proceed(destPlan);
+            }
+            int a;
+            {
+                var di1 = new DirectoryInfo(
+                    @"E:\HthmWork\Home-Projects\FolderOverride-Stuff\TestFolders\NewDestParent\NewDest");
+
+                var ex1 = di1.Exists;
+
+                if (!di1.Exists)
+                {
+                    di1.Create();
+                }
+
+                //var stack_NotExists = new Stack<DirectoryInfo>();
+
+                //var di2 = di1;
+                //while (!di2.Exists)
+                //{
+                //    stack_NotExists.Push(di2);
+                //}
+
+                //while (stack_NotExists.Count() > 0)
+                //{
+                //    di2 = stack_NotExists.Pop();
+
+                //    di2.Create();
+                //}
+
+
+                a = 0;
+            }
 
         }
 
