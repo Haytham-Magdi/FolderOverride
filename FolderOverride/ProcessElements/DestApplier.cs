@@ -24,7 +24,36 @@ namespace FolderOverride.ProcessElements
                 ValidateFileAction(fileAction);
             }
 
-            //  Create non-existing folders.
+            ExecuteCreateFolders(destPlan);
+
+            //  execute file actions.
+            foreach (FileDestAction fileAction in destPlan.FileDestActions)
+            {
+                ExecuteFileAction(fileAction);
+            }
+
+            //  Delete folders not in source.
+            ExecuteDeleteFolders(destPlan);
+
+        }
+
+        private static void ExecuteDeleteFolders(DestPlan destPlan)
+        {
+            foreach (FolderDestAction folderAction in destPlan.FolderDestActions)
+            {
+                if (folderAction.Type == FolderDestAction.ActionType.Delete)
+                {
+                    DirectoryInfo di = new DirectoryInfo(folderAction.DestFullName);
+                    if (di.Exists)
+                    {
+                        di.Delete(true);
+                    }
+                }
+            }
+        }
+
+        private static void ExecuteCreateFolders(DestPlan destPlan)
+        {
             foreach (FolderDestAction folderAction in destPlan.FolderDestActions)
             {
                 if (folderAction.Type == FolderDestAction.ActionType.Create)
@@ -34,22 +63,6 @@ namespace FolderOverride.ProcessElements
                     {
                         di.Create();
                     }
-                }
-            }
-
-            //  execute file actions.
-            foreach (FileDestAction fileAction in destPlan.FileDestActions)
-            {
-                ExecuteFileAction(fileAction);
-            }
-
-            //  Delete folders not in source.
-            foreach (FolderDestAction folderAction in destPlan.FolderDestActions)
-            {
-                if (folderAction.Type == FolderDestAction.ActionType.Delete)
-                {
-                    DirectoryInfo di = new DirectoryInfo(folderAction.DestFullName);
-                    di.Delete();
                 }
             }
 
@@ -75,60 +88,6 @@ namespace FolderOverride.ProcessElements
                         //throw new InvalidOperationException();
                         return;
                     }
-                    break;
-
-                default:
-                    throw new InvalidOperationException();
-            }
-        }
-
-        protected static void ExecuteFolderAction(FolderDestAction folderAction)
-        {
-            DirectoryInfo di = new DirectoryInfo(folderAction.DestFullName);
-
-            switch (folderAction.Type)
-            {
-                case FolderDestAction.ActionType.Create:
-                    if (di.Exists)
-                    {
-                        throw new InvalidOperationException();
-                    }
-                    di.Create();
-                    break;
-
-                case FolderDestAction.ActionType.Delete:
-                    if (!di.Exists)
-                    {
-                        throw new InvalidOperationException();
-                    }
-                    di.Delete();
-                    break;
-
-                default:
-                    throw new InvalidOperationException();
-            }
-        }
-
-        protected static void ExecuteFolderAction(FolderDestAction folderAction)
-        {
-            DirectoryInfo di = new DirectoryInfo(folderAction.DestFullName);
-
-            switch (folderAction.Type)
-            {
-                case FolderDestAction.ActionType.Create:
-                    if (di.Exists)
-                    {
-                        throw new InvalidOperationException();
-                    }
-                    di.Create();
-                    break;
-
-                case FolderDestAction.ActionType.Delete:
-                    if (!di.Exists)
-                    {
-                        throw new InvalidOperationException();
-                    }
-                    di.Delete();
                     break;
 
                 default:
