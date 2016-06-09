@@ -64,8 +64,36 @@ namespace FolderOverride.ProcessElements
                 case FolderDestAction.ActionType.Create:
                     if (di.Exists)
                     {
+                        //throw new InvalidOperationException();
+                        return;
+                    }
+                    break;
+
+                case FolderDestAction.ActionType.Delete:
+                    if (!di.Exists)
+                    {
+                        //throw new InvalidOperationException();
+                        return;
+                    }
+                    break;
+
+                default:
+                    throw new InvalidOperationException();
+            }
+        }
+
+        protected static void ExecuteFolderAction(FolderDestAction folderAction)
+        {
+            DirectoryInfo di = new DirectoryInfo(folderAction.DestFullName);
+
+            switch (folderAction.Type)
+            {
+                case FolderDestAction.ActionType.Create:
+                    if (di.Exists)
+                    {
                         throw new InvalidOperationException();
                     }
+                    di.Create();
                     break;
 
                 case FolderDestAction.ActionType.Delete:
@@ -73,6 +101,7 @@ namespace FolderOverride.ProcessElements
                     {
                         throw new InvalidOperationException();
                     }
+                    di.Delete();
                     break;
 
                 default:

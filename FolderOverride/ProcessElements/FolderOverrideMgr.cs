@@ -18,36 +18,17 @@ namespace FolderOverride.ProcessElements
         MainFolderMgr _srcMain;
         MainFolderMgr _destMain;
 
+        DestPlan _destPlan;
+
 
         public void Proceed()
         {
             Prepare();
 
-            {
-                List<FolderDestAction> list_FolderDestActions = new List<FolderDestAction>();
-                foreach (FolderElm folderElm in this._srcMain.FolderElm_List)
-                {
-                    if (folderElm.RelativePath == "\\")
-                        continue;
+            CreateDestPlan();
 
-                    var folderAction = new FolderDestAction
-                    {
-                        DestFullName = this._destMain.DI_main.FullName + folderElm.RelativePath,
-                        Type = FolderDestAction.ActionType.Create,
-                    };
-                    list_FolderDestActions.Add(folderAction);
-                }
+            DestApplier.Proceed(_destPlan);
 
-                List<FileDestAction> list_FileDestActions = new List<FileDestAction>();
-
-                var destPlan = new DestPlan
-                {
-                    FolderDestActions = list_FolderDestActions,
-                    FileDestActions = list_FileDestActions,
-                };
-
-                DestApplier.Proceed(destPlan);
-            }
             int a;
             {
                 var di1 = new DirectoryInfo(
@@ -79,6 +60,59 @@ namespace FolderOverride.ProcessElements
                 a = 0;
             }
 
+        }
+
+        private void CreateDestPlan()
+        {
+            List<FolderDestAction> list_FolderDestActions = new List<FolderDestAction>();
+            
+            foreach (FolderElm folderElm in this._srcMain.FolderElm_List)
+            {
+                if (folderElm.RelativePath == "\\")
+                    continue;
+
+                var di_Dest = new DirectoryInfo(this._destMain.DI_main.FullName + folderElm.RelativePath);
+                if (di_Dest.Exists)
+                {
+                    continue;
+                }
+
+                var folderAction = new FolderDestAction
+                {
+                    DestFullName = di_Dest.FullName,
+                    Type = FolderDestAction.ActionType.Create,
+                };
+                list_FolderDestActions.Add(folderAction);
+            }
+
+            foreach (FolderElm folderElm in this._destMain.FolderElm_List)
+            {
+                if (folderElm.RelativePath == "\\")
+                    continue;
+
+                var di_Src = new DirectoryInfo(this._srcMain.DI_main.FullName + folderElm.RelativePath);
+                if (di_Src.Exists)
+                {
+                    continue;
+                }
+
+                var folderAction = new FolderDestAction
+                {
+                    DestFullName = this._destMain.DI_main.FullName + folderElm.RelativePath,
+                    Type = FolderDestAction.ActionType.Delete,
+                };
+                list_FolderDestActions.Add(folderAction);
+            }
+
+            List<FileDestAction> list_FileDestActions = new List<FileDestAction>();
+
+            var destPlan = new DestPlan
+            {
+                FolderDestActions = list_FolderDestActions,
+                FileDestActions = list_FileDestActions,
+            };
+
+            _destPlan = destPlan;
         }
 
         public void Prepare()
