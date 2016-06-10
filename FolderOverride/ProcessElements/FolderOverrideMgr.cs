@@ -27,43 +27,16 @@ namespace FolderOverride.ProcessElements
 
             CreateDestPlan();
 
-            DestApplier.Proceed(_destPlan);
+            //DestApplier.Proceed(_destPlan);
 
             int a;
-            {
-                var di1 = new DirectoryInfo(
-                    @"E:\HthmWork\Home-Projects\FolderOverride-Stuff\TestFolders\NewDestParent\NewDest");
-
-                var ex1 = di1.Exists;
-
-                if (!di1.Exists)
-                {
-                    di1.Create();
-                }
-
-                //var stack_NotExists = new Stack<DirectoryInfo>();
-
-                //var di2 = di1;
-                //while (!di2.Exists)
-                //{
-                //    stack_NotExists.Push(di2);
-                //}
-
-                //while (stack_NotExists.Count() > 0)
-                //{
-                //    di2 = stack_NotExists.Pop();
-
-                //    di2.Create();
-                //}
-
-
-                a = 0;
-            }
 
         }
 
         private void CreateDestPlan()
         {
+            #region Folder stuff.
+
             List<FolderDestAction> list_FolderDestActions = new List<FolderDestAction>();
             
             foreach (FolderElm folderElm in this._srcMain.FolderElm_List)
@@ -104,6 +77,11 @@ namespace FolderOverride.ProcessElements
                 list_FolderDestActions.Add(folderAction);
             }
 
+            #endregion
+
+
+            #region File stuff.
+
             List<FileDestAction> list_FileDestActions = new List<FileDestAction>();
 
             var destPlan = new DestPlan
@@ -111,6 +89,8 @@ namespace FolderOverride.ProcessElements
                 FolderDestActions = list_FolderDestActions,
                 FileDestActions = list_FileDestActions,
             };
+
+            #endregion
 
             _destPlan = destPlan;
         }

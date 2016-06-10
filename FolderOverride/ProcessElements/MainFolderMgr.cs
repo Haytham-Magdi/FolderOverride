@@ -21,7 +21,6 @@ namespace FolderOverride.ProcessElements
 
         public void Prepare()
         {
-
             FolderElm_List = new List<FolderElm>(1000);
             FolderElm_List.Add(new FolderElm
             {
@@ -37,19 +36,9 @@ namespace FolderOverride.ProcessElements
         {
             var t1 = DateTime.Now;
 
-            //List<FolderElm> FolderInfo_List = new List<FolderElm>(
-            //    //m_proc.ConfirmingPaths.FolderInfo_List);
-            //    this.FolderInfo_List);
-
-            FileElm_List = new List<FileElm>(100000);
-
-            //foreach (FolderInfo foldInf in FolderInfo_List)
             for (int i = 0; i < FolderElm_List.Count; i++)
             {
                 FolderElm folderElm = FolderElm_List[i];
-
-                //if (foldInf.Status != FolderStatus.Ready)
-                //    continue;
 
                 if (folderElm.IncludeSubFolders)
                 {
@@ -58,7 +47,6 @@ namespace FolderOverride.ProcessElements
                     try
                     {
                         di_List = folderElm.DirectoryInfo.GetDirectories(
-                            //"*.*", SearchOption.AllDirectories);
                             "*.*", SearchOption.TopDirectoryOnly);
                     }
                     catch
@@ -72,15 +60,13 @@ namespace FolderOverride.ProcessElements
                         {
                             DirectoryInfo = di,
                             IncludeSubFolders = true,
-                            //Status = FolderStatus.Ready
                             Parent = folderElm,
                         });
                     }
-
                 }
-
             }
 
+            FileElm_List = new List<FileElm>(100000);
             foreach (FolderElm folderElm in FolderElm_List)
             {
                 FileInfo[] fiColl = null;
@@ -88,7 +74,6 @@ namespace FolderOverride.ProcessElements
                 try
                 {
                     fiColl = folderElm.DirectoryInfo.GetFiles(
-                        //"*.pdf", SearchOption.TopDirectoryOnly);
                         "*.*", SearchOption.TopDirectoryOnly);
                 }
                 catch
@@ -107,8 +92,6 @@ namespace FolderOverride.ProcessElements
                     FileElm_List.Add(fiElm);
                 }
 
-                //if (fiColl.Length > 0)
-                //    FileParent_List.Add(fe_Parent);
             }
 
             var t2 = DateTime.Now;

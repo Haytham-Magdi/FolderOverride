@@ -23,29 +23,56 @@ namespace FolderOverride.ProcessElements
             //StatusMsg = "";
         }
 
+        public static Comparison<FileElm> BasicComparison
+        {
+            get
+            {
+                return (x, y) =>
+                {
+                    {
+                        var sizDif = x.Size - y.Size;
+                        if (sizDif > 0)
+                            return (int)1;
+                        else if (sizDif < 0)
+                            return (int)-1;
+                    }
+
+                    {
+                        int dateTimeDif = x.DateModified.CompareTo(y.DateModified);
+
+                        if (dateTimeDif != 0)
+                            return dateTimeDif;
+                    }
+
+                    {
+                        var diff = x.Name.CompareTo(y.Name);
+                        if (diff != 0)
+                            return diff;
+                    }
+
+                    //{
+                    //    var areEqual = x.CompareUniqueNums(y);
+                    //    if (!areEqual)
+                    //        return 1;
+                    //}
+
+                    return 0;
+                };
+            }
+        }
+
         public static Comparison<FileElm> SortComparison
         {
             get
             {
                 return (x, y) =>
                 {
-                    long longVal1;
+                    int intVal1;
 
-                    longVal1 = x.Size - y.Size;
-                    if (longVal1 > 0)
-                        return (int)1;
-                    else if (longVal1 < 0)
-                        return (int)-1;
-
-                    int intVal1 = x.DateModified.CompareTo(y.DateModified);
+                    intVal1 = FileElm.BasicComparison(x, y);
 
                     if (intVal1 != 0)
                         return intVal1;
-
-                    var boolVal1 = x.CompareUniqueNums(y);
-                    if (!boolVal1)
-                        //boolVal1 = boolVal1;
-                        return 1;
 
                     return 0;
                 };
@@ -58,16 +85,12 @@ namespace FolderOverride.ProcessElements
             {
                 return (x, y) =>
                 {
-                    //long longVal1;
-
                     int intVal1;
 
                     intVal1 = FileElm.SortComparison(x, y);
 
                     if (intVal1 != 0)
                         return intVal1;
-
-                    //bool boolVal1;
 
                     return 0;
                 };
@@ -85,7 +108,7 @@ namespace FolderOverride.ProcessElements
         //    get;
         //    set;
         //}
-        
+
         public string Name
         {
             get { return this.FileInfo.Name; }
