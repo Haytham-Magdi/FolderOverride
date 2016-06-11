@@ -84,6 +84,69 @@ namespace FolderOverride.ProcessElements
 
             List<FileDestAction> list_FileDestActions = new List<FileDestAction>();
 
+            var srcFiles = this._srcMain.FileElm_List;
+            var destFiles = this._destMain.FileElm_List;
+
+            var dif1 = FileElm.BasicComparison(srcFiles[0], srcFiles[1]);
+            var dif2 = FileElm.BasicComparison(srcFiles[1], srcFiles[2]);
+            var dif_2 = FileElm.BasicComparison(srcFiles[2], srcFiles[1]);
+
+            var list_basicEquals = new List<FileElm>();
+
+            int srcIdx = 0;
+            int destIdx = 0;
+            while(true)
+            {
+                var srcFile = srcFiles[srcIdx];
+                var destFile = destFiles[destIdx];
+
+                var basicComp = FileElm.BasicComparison(srcFile, destFile);
+
+                if(basicComp == 0)
+                {
+                    list_basicEquals.Clear();
+                    var basicComp_2 = basicComp;
+                    var fullNameComp = FileElm.FullNameComparison(srcFile, destFile);
+                    for (int k = destIdx; k < destFiles.Count && fullNameComp != 0 && basicComp_2 == 0; k++)
+                    {
+                        list_basicEquals.Add();
+
+                        fullNameComp = FileElm.FullNameComparison(srcFile, destFile);
+
+                        basicComp_2 = FileElm.BasicComparison(srcFile, destFile);
+
+                        throw new NotImplementedException();
+                    }
+
+                    if (srcFile.RelativeFullName != destFile.RelativeFullName)
+                    {
+                        FileDestAction fileAction = new FileDestAction
+                        {
+                            Type = FileDestAction.ActionType.Move,
+                            FileInfo = destFile.FileInfo,
+                            DestFullName = this._destMain.DI_main.FullName + srcFile.RelativeFullName,
+                        };
+                        list_FileDestActions.Add(fileAction);
+                    }
+
+                    srcIdx++;
+                    destIdx++;
+                    continue;
+                }
+                else if (basicComp < 0)
+                {
+                    throw new NotImplementedException();
+                }
+                else if (basicComp > 0)
+                {
+                    throw new NotImplementedException();
+                }
+
+                throw new NotImplementedException();
+            }
+
+            throw new NotImplementedException();
+
             var destPlan = new DestPlan
             {
                 FolderDestActions = list_FolderDestActions,

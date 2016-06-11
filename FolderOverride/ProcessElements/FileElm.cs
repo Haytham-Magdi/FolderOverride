@@ -44,17 +44,28 @@ namespace FolderOverride.ProcessElements
                             return dateTimeDif;
                     }
 
+                    return 0;
+                };
+            }
+        }
+
+        public static Comparison<FileElm> FullNameComparison
+        {
+            get
+            {
+                return (x, y) =>
+                {
+                    {
+                        var diff = x.ParentFolder.RelativePath.CompareTo(y.ParentFolder.RelativePath);
+                        if (diff != 0)
+                            return diff;
+                    }
+
                     {
                         var diff = x.Name.CompareTo(y.Name);
                         if (diff != 0)
                             return diff;
                     }
-
-                    //{
-                    //    var areEqual = x.CompareUniqueNums(y);
-                    //    if (!areEqual)
-                    //        return 1;
-                    //}
 
                     return 0;
                 };
@@ -67,35 +78,42 @@ namespace FolderOverride.ProcessElements
             {
                 return (x, y) =>
                 {
-                    int intVal1;
+                    {
+                        var diff = FileElm.BasicComparison(x, y);
 
-                    intVal1 = FileElm.BasicComparison(x, y);
+                        if (diff != 0)
+                            return diff;
+                    }
 
-                    if (intVal1 != 0)
-                        return intVal1;
+                    {
+                        var diff = FileElm.FullNameComparison(x, y);
 
-                    return 0;
-                };
-            }
-        }
-
-        public static Comparison<FileElm> OverrideComparison
-        {
-            get
-            {
-                return (x, y) =>
-                {
-                    int intVal1;
-
-                    intVal1 = FileElm.SortComparison(x, y);
-
-                    if (intVal1 != 0)
-                        return intVal1;
+                        if (diff != 0)
+                            return diff;
+                    }
 
                     return 0;
                 };
             }
         }
+
+        //public static Comparison<FileElm> OverrideComparison
+        //{
+        //    get
+        //    {
+        //        return (x, y) =>
+        //        {
+        //            int intVal1;
+
+        //            intVal1 = FileElm.SortComparison(x, y);
+
+        //            if (intVal1 != 0)
+        //                return intVal1;
+
+        //            return 0;
+        //        };
+        //    }
+        //}
 
         //public FileElm Repeated_FileElm
         //{

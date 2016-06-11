@@ -34,7 +34,7 @@ namespace FolderOverride.ProcessElements
             throw new NotImplementedException();
         }
 
-        void ExecuteDelet()
+        void ExecuteDelete()
         {
             throw new NotImplementedException();
         }
