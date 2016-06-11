@@ -38,7 +38,7 @@ namespace FolderOverride.ProcessElements
             #region Folder stuff.
 
             List<FolderDestAction> list_FolderDestActions = new List<FolderDestAction>();
-            
+
             foreach (FolderElm folderElm in this._srcMain.FolderElm_List)
             {
                 if (folderElm.RelativePath == "\\")
@@ -87,36 +87,37 @@ namespace FolderOverride.ProcessElements
             var srcFiles = this._srcMain.FileElm_List;
             var destFiles = this._destMain.FileElm_List;
 
-            var dif1 = FileElm.BasicComparison(srcFiles[0], srcFiles[1]);
-            var dif2 = FileElm.BasicComparison(srcFiles[1], srcFiles[2]);
-            var dif_2 = FileElm.BasicComparison(srcFiles[2], srcFiles[1]);
+            var tmpIdx = 100;
+            var dif1 = FileElm.BasicComparison(srcFiles[0 + tmpIdx], srcFiles[1 + tmpIdx]); //  -1
+            var dif2 = FileElm.BasicComparison(srcFiles[1 + tmpIdx], srcFiles[2 + tmpIdx]); //  -1
+            var dif_2 = FileElm.BasicComparison(srcFiles[2 + tmpIdx], srcFiles[1 + tmpIdx]);    //  1
 
             var list_basicEquals = new List<FileElm>();
 
             int srcIdx = 0;
             int destIdx = 0;
-            while(true)
+            while (true)
             {
                 var srcFile = srcFiles[srcIdx];
                 var destFile = destFiles[destIdx];
 
                 var basicComp = FileElm.BasicComparison(srcFile, destFile);
 
-                if(basicComp == 0)
+                if (basicComp == 0)
                 {
-                    list_basicEquals.Clear();
-                    var basicComp_2 = basicComp;
-                    var fullNameComp = FileElm.FullNameComparison(srcFile, destFile);
-                    for (int k = destIdx; k < destFiles.Count && fullNameComp != 0 && basicComp_2 == 0; k++)
-                    {
-                        list_basicEquals.Add();
+                    //list_basicEquals.Clear();
+                    //var basicComp_2 = basicComp;
+                    //var fullNameComp = FileElm.FullNameComparison(srcFile, destFile);
+                    //for (int k = destIdx; k < destFiles.Count && fullNameComp != 0 && basicComp_2 == 0; k++)
+                    //{
+                    //    list_basicEquals.Add();
 
-                        fullNameComp = FileElm.FullNameComparison(srcFile, destFile);
+                    //    fullNameComp = FileElm.FullNameComparison(srcFile, destFile);
 
-                        basicComp_2 = FileElm.BasicComparison(srcFile, destFile);
+                    //    basicComp_2 = FileElm.BasicComparison(srcFile, destFile);
 
-                        throw new NotImplementedException();
-                    }
+                    //    throw new NotImplementedException();
+                    //}
 
                     if (srcFile.RelativeFullName != destFile.RelativeFullName)
                     {
@@ -135,17 +136,27 @@ namespace FolderOverride.ProcessElements
                 }
                 else if (basicComp < 0)
                 {
-                    throw new NotImplementedException();
+                    FileDestAction fileAction = new FileDestAction
+                    {
+                        Type = FileDestAction.ActionType.Copy,
+                        FileInfo = srcFile.FileInfo,
+                        DestFullName = this._destMain.DI_main.FullName + srcFile.RelativeFullName,
+                    };
+                    list_FileDestActions.Add(fileAction);
+                    srcIdx++;
+                    continue;
                 }
                 else if (basicComp > 0)
                 {
-                    throw new NotImplementedException();
+                    FileDestAction fileAction = new FileDestAction
+                    {
+                        Type = FileDestAction.ActionType.Delete,
+                        FileInfo = destFile.FileInfo,
+                    };
+                    destIdx++;
+                    continue;
                 }
-
-                throw new NotImplementedException();
             }
-
-            throw new NotImplementedException();
 
             var destPlan = new DestPlan
             {
