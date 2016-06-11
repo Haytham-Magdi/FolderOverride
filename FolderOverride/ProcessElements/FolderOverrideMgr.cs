@@ -27,7 +27,7 @@ namespace FolderOverride.ProcessElements
 
             CreateDestPlan();
 
-            //DestApplier.Proceed(_destPlan);
+            DestApplier.Proceed(_destPlan);
 
             int a;
 
@@ -92,69 +92,82 @@ namespace FolderOverride.ProcessElements
             var dif2 = FileElm.BasicComparison(srcFiles[1 + tmpIdx], srcFiles[2 + tmpIdx]); //  -1
             var dif_2 = FileElm.BasicComparison(srcFiles[2 + tmpIdx], srcFiles[1 + tmpIdx]);    //  1
 
-            var list_basicEquals = new List<FileElm>();
+            var list_destBasicEquals = new List<FileElm>();
 
             int srcIdx = 0;
             int destIdx = 0;
-            while (true)
+            while (srcIdx != srcFiles.Count() || destIdx != destFiles.Count())
             {
-                var srcFile = srcFiles[srcIdx];
-                var destFile = destFiles[destIdx];
-
-                var basicComp = FileElm.BasicComparison(srcFile, destFile);
-
-                if (basicComp == 0)
+                if (srcIdx != srcFiles.Count() && destIdx == destFiles.Count())
                 {
-                    //list_basicEquals.Clear();
-                    //var basicComp_2 = basicComp;
-                    //var fullNameComp = FileElm.FullNameComparison(srcFile, destFile);
-                    //for (int k = destIdx; k < destFiles.Count && fullNameComp != 0 && basicComp_2 == 0; k++)
-                    //{
-                    //    list_basicEquals.Add();
-
-                    //    fullNameComp = FileElm.FullNameComparison(srcFile, destFile);
-
-                    //    basicComp_2 = FileElm.BasicComparison(srcFile, destFile);
-
-                    //    throw new NotImplementedException();
-                    //}
-
-                    if (srcFile.RelativeFullName != destFile.RelativeFullName)
-                    {
-                        FileDestAction fileAction = new FileDestAction
-                        {
-                            Type = FileDestAction.ActionType.Move,
-                            FileInfo = destFile.FileInfo,
-                            DestFullName = this._destMain.DI_main.FullName + srcFile.RelativeFullName,
-                        };
-                        list_FileDestActions.Add(fileAction);
-                    }
-
-                    srcIdx++;
-                    destIdx++;
-                    continue;
-                }
-                else if (basicComp < 0)
-                {
-                    FileDestAction fileAction = new FileDestAction
-                    {
-                        Type = FileDestAction.ActionType.Copy,
-                        FileInfo = srcFile.FileInfo,
-                        DestFullName = this._destMain.DI_main.FullName + srcFile.RelativeFullName,
-                    };
+                    var srcFile = srcFiles[srcIdx];
+                    FileDestAction fileAction = CreateFileCopyAction(srcFile);
                     list_FileDestActions.Add(fileAction);
                     srcIdx++;
                     continue;
                 }
-                else if (basicComp > 0)
+                else if (srcIdx == srcFiles.Count() && destIdx != destFiles.Count())
                 {
-                    FileDestAction fileAction = new FileDestAction
-                    {
-                        Type = FileDestAction.ActionType.Delete,
-                        FileInfo = destFile.FileInfo,
-                    };
+                    var destFile = destFiles[destIdx];
+                    FileDestAction fileAction = CreateFileDeleteAction(destFile);
+                    list_FileDestActions.Add(fileAction);
                     destIdx++;
                     continue;
+                }
+                else
+                {
+                    var srcFile = srcFiles[srcIdx];
+                    var destFile = destFiles[destIdx];
+
+                    if (srcFile.RelativeFullName == "\\IbsHaythamMagdiTask.v12.suo")
+                        srcIdx = srcIdx;
+
+                    var basicComp = FileElm.BasicComparison(srcFile, destFile);
+
+                    if (basicComp == 0)
+                    {
+                        list_destBasicEquals.Clear();
+                        var basicComp_2 = basicComp;
+                        var fullNameComp = FileElm.FullNameComparison(srcFile, destFile);
+                        //for (int k = destIdx; k < destFiles.Count && fullNameComp != 0 && basicComp_2 == 0; k++)
+                        for (int k = destIdx; k < destFiles.Count && fullNameComp != 0 && basicComp_2 == 0; k++)
+                        {
+                            list_destBasicEquals.Add(destFiles[k]);
+
+                            fullNameComp = FileElm.FullNameComparison(srcFile, destFile);
+
+                            basicComp_2 = FileElm.BasicComparison(srcFile, destFile);
+
+                            throw new NotImplementedException();
+                        }
+
+                        throw new NotImplementedException();
+
+
+                        if (srcFile.RelativeFullName != destFile.RelativeFullName)
+                        {
+                            FileDestAction fileAction = CreateFileMoveAction(srcFile, destFile);
+                            list_FileDestActions.Add(fileAction);
+                        }
+
+                        srcIdx++;
+                        destIdx++;
+                        continue;
+                    }
+                    else if (basicComp < 0)
+                    {
+                        FileDestAction fileAction = CreateFileCopyAction(srcFile);
+                        list_FileDestActions.Add(fileAction);
+                        srcIdx++;
+                        continue;
+                    }
+                    else if (basicComp > 0)
+                    {
+                        FileDestAction fileAction = CreateFileDeleteAction(destFile);
+                        list_FileDestActions.Add(fileAction);
+                        destIdx++;
+                        continue;
+                    }
                 }
             }
 
@@ -167,6 +180,35 @@ namespace FolderOverride.ProcessElements
             #endregion
 
             _destPlan = destPlan;
+        }
+
+        private static FileDestAction CreateFileDeleteAction(FileElm destFile)
+        {
+            return new FileDestAction
+            {
+                Type = FileDestAction.ActionType.Delete,
+                FileInfo = destFile.FileInfo,
+            };
+        }
+
+        private FileDestAction CreateFileCopyAction(FileElm srcFile)
+        {
+            return new FileDestAction
+            {
+                Type = FileDestAction.ActionType.Copy,
+                FileInfo = srcFile.FileInfo,
+                DestFullName = this._destMain.DI_main.FullName + srcFile.RelativeFullName,
+            };
+        }
+
+        private FileDestAction CreateFileMoveAction(FileElm srcFile, FileElm destFile)
+        {
+            return new FileDestAction
+            {
+                Type = FileDestAction.ActionType.Move,
+                FileInfo = destFile.FileInfo,
+                DestFullName = this._destMain.DI_main.FullName + srcFile.RelativeFullName,
+            };
         }
 
         public void Prepare()

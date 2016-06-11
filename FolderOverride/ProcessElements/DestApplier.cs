@@ -24,6 +24,8 @@ namespace FolderOverride.ProcessElements
                 ValidateFileAction(fileAction);
             }
 
+            //throw new NotImplementedException();
+
             ExecuteCreateFolders(destPlan);
 
             //  execute file actions.
@@ -108,12 +110,18 @@ namespace FolderOverride.ProcessElements
                         throw new InvalidOperationException();
                     }
                     break;
-                //case FileDestAction.ActionType.Move:
-                //    ExecuteMove();
-                //    break;
-                //case FileDestAction.ActionType.Delete:
-                //    ExecuteDelet();
-                //    break;
+                case FileDestAction.ActionType.Move:
+                    if (!srcFi.Exists || destFi.Exists)
+                    {
+                        throw new InvalidOperationException();
+                    }
+                    break;
+                case FileDestAction.ActionType.Delete:
+                    if (!srcFi.Exists)
+                    {
+                        throw new InvalidOperationException();
+                    }
+                    break;
                 default:
                     throw new InvalidOperationException();
             }
@@ -133,12 +141,20 @@ namespace FolderOverride.ProcessElements
                     }
                     Util.CommonUtil.Safe_CopyFileTo(fileAction.FileInfo, fileAction.DestFullName);
                     break;
-                //case FileDestAction.ActionType.Move:
-                //    ExecuteMove();
-                //    break;
-                //case FileDestAction.ActionType.Delete:
-                //    ExecuteDelet();
-                //    break;
+                case FileDestAction.ActionType.Move:
+                    if (!srcFi.Exists || destFi.Exists)
+                    {
+                        throw new InvalidOperationException();
+                    }
+                    srcFi.MoveTo(destFi.FullName);
+                    break;
+                case FileDestAction.ActionType.Delete:
+                    if (!srcFi.Exists)
+                    {
+                        throw new InvalidOperationException();
+                    }
+                    srcFi.Delete();
+                    break;
                 default:
                     throw new InvalidOperationException();
             }

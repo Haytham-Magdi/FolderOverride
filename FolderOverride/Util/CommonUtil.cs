@@ -17,7 +17,7 @@ namespace FolderOverride.Util
             return sEnd;
         }
 
-        public static void Safe_CopyFileTo(FileInfo a_fi, string a_sDestFullName,
+        public static void Safe_CopyFileTo_0(FileInfo a_fi, string a_sDestFullName,
             bool bOverwrite = false)
         {
             a_fi.CopyTo(a_sDestFullName, bOverwrite);
@@ -47,6 +47,49 @@ namespace FolderOverride.Util
                             throw new Exception("Unable to copy file");
                         }
                     }
+
+                    break;
+                }
+
+                //if (nCntMs > 7000)
+                if (nCntMs > nCntMs_Max)
+                    throw new Exception("Unable to copy file");
+
+                System.Threading.Thread.Sleep(nCycleWait);
+            }
+
+        }
+
+        public static void Safe_CopyFileTo(FileInfo a_fi, string a_sDestFullName,
+            bool bOverwrite = false)
+        {
+            a_fi.CopyTo(a_sDestFullName, bOverwrite);
+
+            int nCycleWait = 100;
+
+            long nCntMs_Max = 20000 * a_fi.Length / 100000000;
+
+            int nCntMs = 0;
+
+            while (true)
+            {
+                //FileSystemWatcher fsw1 = new FileSystemWatcher(
+
+                FileInfo fi_2 = new FileInfo(a_sDestFullName);
+
+                nCntMs += nCycleWait;
+                //nCntMs++;
+
+                if (fi_2.Length == a_fi.Length)
+                {
+                    //using (FileStream fs1 = new FileStream(
+                    //    a_sDestFullName, FileMode.Open))
+                    //{
+                    //    if (fs1.Length != a_fi.Length)
+                    //    {
+                    //        throw new Exception("Unable to copy file");
+                    //    }
+                    //}
 
                     break;
                 }
