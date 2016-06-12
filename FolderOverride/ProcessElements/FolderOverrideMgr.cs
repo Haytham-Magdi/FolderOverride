@@ -92,6 +92,7 @@ namespace FolderOverride.ProcessElements
             var dif2 = FileElm.BasicComparison(srcFiles[1 + tmpIdx], srcFiles[2 + tmpIdx]); //  -1
             var dif_2 = FileElm.BasicComparison(srcFiles[2 + tmpIdx], srcFiles[1 + tmpIdx]);    //  1
 
+            var list_srcBasicEquals = new List<FileElm>();
             var list_destBasicEquals = new List<FileElm>();
 
             int srcIdx = 0;
@@ -126,17 +127,33 @@ namespace FolderOverride.ProcessElements
 
                     if (basicComp == 0)
                     {
+                        var srcIdx_2 = srcIdx;
+                        var destIdx_2 = destIdx;
+
                         list_destBasicEquals.Clear();
+                        list_srcBasicEquals.Clear();
+
                         var basicComp_2 = basicComp;
                         var fullNameComp = FileElm.FullNameComparison(srcFile, destFile);
                         //for (int k = destIdx; k < destFiles.Count && fullNameComp != 0 && basicComp_2 == 0; k++)
-                        for (int k = destIdx; k < destFiles.Count && fullNameComp != 0 && basicComp_2 == 0; k++)
+                        for (destIdx_2 = destIdx; destIdx_2 < destFiles.Count && basicComp_2 == 0; destIdx_2++)
                         {
-                            list_destBasicEquals.Add(destFiles[k]);
+                            list_destBasicEquals.Add(destFiles[destIdx_2]);
 
-                            fullNameComp = FileElm.FullNameComparison(srcFile, destFile);
+                            fullNameComp = FileElm.FullNameComparison(srcFile, destFiles[destIdx_2]);
+                            basicComp_2 = FileElm.BasicComparison(srcFile, destFiles[destIdx_2]);
 
-                            basicComp_2 = FileElm.BasicComparison(srcFile, destFile);
+                            throw new NotImplementedException();
+                        }
+
+                        basicComp_2 = basicComp;
+                        fullNameComp = FileElm.FullNameComparison(srcFile, destFile);
+                        for (srcIdx_2 = destIdx; srcIdx_2 < srcFiles.Count && basicComp_2 == 0; srcIdx_2++)
+                        {
+                            list_destBasicEquals.Add(srcFiles[srcIdx_2]);
+
+                            fullNameComp = FileElm.FullNameComparison(srcFiles[srcIdx_2], destFile);
+                            basicComp_2 = FileElm.BasicComparison(srcFiles[srcIdx_2], destFile);
 
                             throw new NotImplementedException();
                         }
