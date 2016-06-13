@@ -55,3 +55,30 @@
             }
         }
 
+
+
+
+		////////////////////////////////////////////////////////
+
+
+
+					else if (basicComp < 0)
+                    {
+                        FileDestAction fileAction = CreateFileCopyAction(srcFile);
+                        list_FileDestActions.Add(fileAction);
+                        srcIdx++;
+                        continue;
+                    }
+                    else if (basicComp > 0)
+                    {
+                        FileDestAction fileAction = CreateFileDeleteAction(destFile);
+                        list_FileDestActions.Add(fileAction);
+                        destIdx++;
+                        continue;
+                    }
+
+
+
+
+
+

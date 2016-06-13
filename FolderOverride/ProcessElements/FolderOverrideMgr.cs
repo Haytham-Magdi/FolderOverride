@@ -133,6 +133,9 @@ namespace FolderOverride.ProcessElements
                         list_destBasicEquals.Clear();
                         list_srcBasicEquals.Clear();
 
+                        ////  tmp
+                        //list_srcBasicEquals = list_destBasicEquals;
+
                         var basicComp_2 = basicComp;
                         var fullNameComp = FileElm.FullNameComparison(srcFile, destFile);
                         //for (int k = destIdx; k < destFiles.Count && fullNameComp != 0 && basicComp_2 == 0; k++)
@@ -140,10 +143,8 @@ namespace FolderOverride.ProcessElements
                         {
                             list_destBasicEquals.Add(destFiles[destIdx_2]);
 
-                            fullNameComp = FileElm.FullNameComparison(srcFile, destFiles[destIdx_2]);
+                            //fullNameComp = FileElm.FullNameComparison(srcFile, destFiles[destIdx_2]);
                             basicComp_2 = FileElm.BasicComparison(srcFile, destFiles[destIdx_2]);
-
-                            throw new NotImplementedException();
                         }
 
                         basicComp_2 = basicComp;
@@ -152,10 +153,34 @@ namespace FolderOverride.ProcessElements
                         {
                             list_destBasicEquals.Add(srcFiles[srcIdx_2]);
 
-                            fullNameComp = FileElm.FullNameComparison(srcFiles[srcIdx_2], destFile);
+                            //fullNameComp = FileElm.FullNameComparison(srcFiles[srcIdx_2], destFile);
                             basicComp_2 = FileElm.BasicComparison(srcFiles[srcIdx_2], destFile);
 
-                            throw new NotImplementedException();
+                            //throw new NotImplementedException();
+                        }
+
+
+                        var list_all = list_srcBasicEquals.Select(x => new
+                        {
+                            FileElm = x,
+                            From = 'S',
+                        }).ToList();
+
+                        list_all.AddRange(list_destBasicEquals.Select(x => new
+                        {
+                            FileElm = x,
+                            From = 'D',
+                        }));
+
+                        list_all.Sort((x, y) =>
+                        {
+                            return FileElm.FullNameComparison(x.FileElm, y.FileElm);
+                        });
+
+                        for (int k = 0; k < list_all.Count(); k++)
+                        {
+
+
                         }
 
                         throw new NotImplementedException();
